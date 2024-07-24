@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快递寄件页面</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* 设置页面字体 */
+            background-color: #f0f0f0; /* 设置页面背景色为灰色 */
+            margin: 0; /* 清除页面默认边距 */
+            padding: 0; /* 清除页面默认内边距 */
+        }
+        .container {
+            width:400px; /* 设置容器宽度为80%，居中显示 */
+            margin: 50px auto; /* 上下居中 */
+            background-color: #fff; /* 设置容器背景色为白色 */
+            padding: 20px; /* 添加内边距 */
+            border-radius: 5px; /* 设置容器圆角 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+        }
+        .title {
+            font-size: 24px; /* 设置标题字体大小 */
+            margin-bottom: 20px; /* 添加标题与表单之间的间距 */
+        }
+        .form-group {
+            margin-bottom: 20px; /* 添加表单项之间的间距 */
+        }
+        .form-group label {
+            display: block; /* 设置标签为块级元素，使其单独占据一行 */
+            margin-bottom: 5px; /* 添加标签与输入框之间的间距 */
+        }
+        .form-group input {
+            width: 100%; /* 设置输入框宽度为100% */
+            padding: 10px; /* 添加内边距 */
+            border-radius: 5px; /* 设置输入框圆角 */
+            border: 1px solid #ccc; /* 设置输入框边框 */
+        }
+        .btn {
+            padding: 10px 20px; /* 设置按钮内边距 */
+            background-color: #007bff; /* 设置按钮背景色 */
+            color: #fff; /* 设置按钮文字颜色 */
+            border: none; /* 移除按钮边框 */
+            border-radius: 5px; /* 设置按钮圆角 */
+            cursor: pointer; /* 设置鼠标悬停样式为手型 */
+        }
+        .btn:hover {
+            background-color: #0056b3; /* 设置按钮悬停时背景色 */
+        }
+
+        /* 添加模态框样式 */
+        .modal {
+            display: none; /* 隐藏模态框 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* 背景半透明 */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .flex-container{
+            display: flex;
+            justify-content: space-around;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="flex-container">
+    <div class="container">
+        <div class="title">寄
+            <input type="button"  id="dizhibo" value="地址薄" onclick="openModal()">
+        </div>
+        <div class="form-group">
+            <label for="senderName">*姓名：</label>
+            <input type="text" id="senderName" required>
+        </div>
+        <div class="form-group">
+            <label for="senderPhone">*电话：</label>
+            <input type="tel" id="senderPhone" required>
+        </div>
+        <div class="form-group">
+            <label for="senderAddress">*地址：</label>
+            <input type="text" id="senderAddress" required>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="title">收
+            <input type="button"  id="dizhibo" value="地址薄" onclick="openModal()">
+        </div>
+        <div class="form-group">
+            <label for="senderName">*收件人姓名：</label>
+            <input type="text" id="senderName" required>
+        </div>
+        <div class="form-group">
+            <label for="senderPhone">*收件人电话：</label>
+            <input type="tel" id="senderPhone" required>
+        </div>
+        <div class="form-group">
+            <label for="senderAddress">*收件人地址：</label>
+            <input type="text" id="senderAddress" required>
+        </div>
+    </div>
+
+
+</div>
+
+<div>
+
+
+
+
+</div>
+
+
+
+<!-- 模态框地址薄 -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>地址薄</h2>
+        <div id="addressBook">
+            <!-- 查询地址输入框 -->
+            <input type="text" id="searchInput" placeholder="输入关键词查询地址">
+            <input type="button" id="searchButton" onclick="searchAddress()" value="搜索">
+            <!-- 弹出添加地址模态框 -->
+            <input type="button" onclick="openAddAddressModal()" value="+ 新增地址">
+            <!-- 地址薄表格 -->
+            <table id="addressTable">
+                <thead>
+                <tr>
+                    <th>联系人</th>
+                    <th>电话</th>
+                    <th>地址</th>
+                </tr>
+                </thead>
+                <tbody id="addressBookBody">
+
+                <tr th:each="row:${rows}">
+
+                    <td>[[${row.contact}]]</td>
+                    <td>[[${row.phone}]]</td>
+                    <td>[[${row.address}]]</td>
+                    <td>
+                        <a th:href="'/shipping/delete?id='+${row.id}">删除</a>
+
+                        <a href="#" th:data-id="${row.id}" onclick="fetchAddressAndOpenModal(this.getAttribute('data-id'))">编辑</a>
+                    </td>
+                </tr>
+                <!-- 这里将通过JavaScript动态添加地址行 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 添加地址模态框 -->
+<div id="addAddressModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddAddressModal()">&times;</span>
+        <h2>添加地址</h2>
+        <!-- 添加地址表单 -->
+            <label for="contact">联系人姓名:</label>
+            <input type="text" id="contact" name="contact" required><br>
+            <label for="phone">电话:</label>
+            <input type="text" id="phone" name="phone" required><br>
+            <label for="address">地址:</label>
+            <input type="text" id="address" name="address" required><br>
+            <label for="submit"></label>
+        <button id="submitData" name="submit">提交</button>
+    </div>
+</div>
+
+<!-- 编辑地址模态框 -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2>编辑地址</h2>
+        <div id="editForm">
+            <input type="hidden" name="id" id="edited">
+            <label for="editContact">联系人：</label>
+            <input type="text" id="editContact" name="contact" ><br>
+            <label for="editPhone">电话：</label>
+            <input type="text" id="editPhone" name="phone" ><br>
+            <label for="editAddress">地址：</label>
+            <input type="text" id="editAddress" name="address"><br>
+            <input type="submit" onclick="saveChanges()" value="保存">
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    //点击地址信息栏自动填入寄件信息
+    $(document).ready(function (){
+        //添加点击事件
+        $("#addressTable tbody tr").click(function (){
+
+            var data = $(this).find("td").map(function(){
+                return $(this).text();
+            }).get();
+
+            // 将信息填充到寄件页面对应的输入框中
+            $('#senderName').val(data[0]); // 假设姓名在第一个单元格中
+            $('#senderPhone').val(data[1]); // 假设地址在第二个单元格中
+            $('#senderAddress').val(data[1]);
+
+            //关闭地址模态框
+            closeModal();
+
+        });
+    });
+
+
+    //添加新的地址信息
+    $(document).ready(function() {
+        // 监听表单提交事件
+        $("#submitData").click(function(event) {
+
+            // 获取表单中的信息
+            var contact = $("#contact").val();
+            var phone = $("#phone").val();
+            var address = $("#address").val();
+            if(contact === '') return alert('请填写联系人姓名')
+            if(phone === '') return alert('请填写手机号')
+            if(address === '') return alert('请填写地址')
+
+            // 创建新地址对象
+            var newAddress = {
+                contact: contact,
+                phone: phone,
+                address: address
+            };
+
+            // 使用AJAX将数据发送到后端
+            $.ajax({
+                type: "post",
+                url: "/shipping/add",
+                data: newAddress,
+                success: function(response) {
+                    // 如果成功，你可以在这里执行一些操作，比如显示成功消息或者重新加载页面
+                    alert("添加成功");
+                    console.log("Data successfully sent to the server");
+                },
+                error: function(xhr, status, error) {
+                    // 如果失败，你可以在这里处理错误，比如显示错误消息或者进行其他操作
+                    alert("添加失败");
+                    console.error("Error occurred while sending data to the server");
+                }
+            });
+
+            // 关闭添加地址模态框
+            closeAddAddressModal();
+        });
+    });
+
+    // 搜索功能
+    function searchAddress(){
+        // 获取输入框中的关键词
+        var keyword = $('#searchInput').val().toLowerCase();
+
+        // 遍历地址薄表格中的每一行
+        $('#addressTable tbody tr').each(function() {
+            var found = false;
+
+            // 遍历当前行的每个单元格
+            $(this).find('td').each(function() {
+                var content = $(this).text().toLowerCase();
+                // 判断当前单元格内容是否包含关键词
+                if (content.indexOf(keyword) !== -1) {
+                    found = true;
+                    return false; // 结束内部循环
+                }
+            });
+
+            // 根据搜索结果显示或隐藏当前行
+            if (found) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
+    // 获取要编辑的地址信息
+    function fetchAddressAndOpenModal(id) {
+        // 根据 id 发送 AJAX 请求获取要编辑的地址信息
+        $.ajax({
+            url: '/shipping/edit?id=' + id,
+            data:{
+                id: id
+            },
+            type: "GET",
+            success: function(response) {
+                // 请求成功时将返回的地址信息填充到编辑表单中
+                $("#edited").val(id);
+                $("#editContact").val(response.contact);
+                $("#editPhone").val(response.phone);
+                $("#editAddress").val(response.address);
+                // 显示编辑模态框
+                $("#editModal").show();
+            },
+            error: function(xhr, status, error) {
+                // 请求失败时的处理逻辑
+                console.log(id)
+                alert("获取地址信息失败");
+                console.error("Failed to fetch address information");
+            }
+        });
+    }
+
+    //更改地址信息
+    function saveChanges() {
+        var editedContact = $("#editContact").val();
+        var editedPhone = $("#editPhone").val();
+        var editedAddress = $("#editAddress").val();
+        var id = $("#edited").val();
+
+        // 发送 AJAX 请求
+        $.ajax({
+            url: '/shipping/edit',
+            type: "POST",
+            data: {
+                contact: editedContact,
+                phone: editedPhone,
+                address: editedAddress,
+                id: id
+            },
+            success: function(response) {
+                // 请求成功时的处理逻辑
+                alert("编辑成功")
+                console.log("Address updated successfully");
+            },
+            error: function(xhr, status, error) {
+                // 请求失败时的处理逻辑
+                alert("编辑失败")
+                console.error("Request failed");
+            }
+        });
+
+    }
+
+    // 关闭编辑模态框
+    function closeEditModal() {
+        $("#editModal").hide();
+    }
+
+    //关闭新增地址模态框
+    function closeAddAddressModal() {
+        $("#addAddressModal").hide();
+    }
+
+    //打开新增地址模态框
+    function openAddAddressModal() {
+        var addAddressModal = document.getElementById("addAddressModal");
+        addAddressModal.style.display = "block";
+    }
+
+    // 打开模态框
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    // 关闭模态框
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+
+</script>
+</body>
+</html>

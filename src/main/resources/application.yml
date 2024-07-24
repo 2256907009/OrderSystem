@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: SpritgDemo1
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+
+  mvc:
+    static-path-pattern: /static/**
+
+server:
+  port: 8080
+
+

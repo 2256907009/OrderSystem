@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑页面</title>
+</head>
+<body>
+    <form method="POST" action="/edit">
+        订单号：<input type="text" name="orderNumber" th:value="${row.orderNumber}" placeholder="请输入一个五位数的订单号" required><br>
+        名称<input type="text" name="orderName" th:value="${row.orderName}" placeholder="请输入一个名称" required><br>
+        金额：<input type="text" name="orderMoney" th:value="${row.orderMoney}" placeholder="请输入一个金额" required><br>
+        日期：<input type="text" name="orderDate" th:value="${row.orderDate}" placeholder="请输入一个日期" required><br>
+        地址：<input type="text" name="orderAddress" th:value="${row.orderAddress}" placeholder="请输入一个地址" required><br>
+
+        <input type="hidden" name="id" th:value="${row.id}">
+        <br>
+
+        <input type="submit" value="编辑">
+    </form>
+</body>
+</html>

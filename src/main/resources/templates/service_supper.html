@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Olive Enterprise">
+    <!-- END META -->
+
+    <!-- BEGIN SHORTCUT ICON -->
+    <link rel="shortcut icon" href="/static/static2/img/favicon.ico">
+    <!-- END SHORTCUT ICON -->
+    <title>
+        Olive Admin - Flat & Responsive Bootstrap Admin Template
+    </title>
+    <!-- BEGIN STYLESHEET-->
+    <link href="/static/static2/css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+    <link href="/static/static2/css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+    <link href="/static/static2/assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON CSS -->
+    <link href="/static/static2/css/style.css" rel="stylesheet"><!-- THEME BASIC CSS -->
+    <link href="/static/static2/css/style-responsive.css" rel="stylesheet"><!-- THEME RESPONSIVE CSS -->
+    <link href="/static/static2/assets/morris.js-0.4.3/morris.css" rel="stylesheet"><!-- MORRIS CHART CSS -->
+    <!--dashboard calendar-->
+    <link href="/static/static2/css/clndr.css" rel="stylesheet"><!-- CALENDER CSS -->
+    <!--[if lt IE 9]>
+    <script src="/static/static2/js/html5shiv.js">
+    </script>
+    <script src="/static/static2/js/respond.min.js">
+    </script>
+    <![endif]-->
+    <!-- END STYLESHEET-->
+</head>
+
+<body>
+<!-- BEGIN SECTION -->
+<section id="container">
+    <!-- BEGIN HEADER -->
+    <header class="header white-bg">
+        <!-- SIDEBAR TOGGLE BUTTON -->
+        <div class="sidebar-toggle-box">
+            <div  data-placement="right" class="fa fa-bars tooltips">
+            </div>
+        </div>
+        <!-- SIDEBAR TOGGLE BUTTON  END-->
+        <div>
+            <a href="/home" class="logo">首页&#20;
+            </a>
+        </div>
+
+        <div>
+            <a href="/service_supper" class="logo">服务&#20;</a>
+        </div>
+
+        <div><a href="/service_supper" class="logo">查件</a></div>
+
+
+        <div class="top-nav ">
+            <ul class="nav pull-right top-menu">
+                <li>
+                    <input type="text" class="form-control search" placeholder="Search">
+                </li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img alt="" src="/static/static2/img/avatar1_small.jpg">
+                        <span class="username">
+                  admin
+                </span>
+                        <b class="caret">
+                        </b>
+                    </a>
+                    <ul class="dropdown-menu extended logout">
+                        <li class="log-arrow-up">
+                        </li>
+                        <li>
+                            <a href="/index">
+                                <i class="fa fa-key">
+                                </i>
+                                Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- END USER LOGIN DROPDOWN  -->
+    </header>
+    <!-- END HEADER -->
+    <!-- BEGIN SIDEBAR -->
+    <aside>
+        <div id="sidebar" class="nav-collapse">
+            <ul class="sidebar-menu" id="nav-accordion">
+                <li class="sub-menu">
+                    <a href="/shipping" class="active">
+                        <i class="fa fa-dashboard">
+                        </i>
+                        <span>
+                  寄件
+                </span>
+                    </a>
+                </li>
+                <li class="sub-menu" id="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-laptop"></i>
+                        <span>服务查询
+                                </span>
+                        <span class="label label-success span-sidebar">3
+                        </span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="boxed_page.html">运费时效查询</a>
+                        </li>
+                        <li>
+                            <a href="horizontal_menu.html">收寄范围查询</a>
+                        </li>
+                        <li>
+                            <a href="language_switch_bar.html">汇率查询</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="/content">
+                        <i class="fa fa-book">
+                        </i>
+                        <span>
+                    查件
+                </span>
+                        <span class="label label-info span-sidebar">
+                 1
+                </span>
+                    </a>
+                </li>
+                <li class="sub-menu" id="sub-menu2">
+                    <a href="javascript:;">
+                        <i class="fa fa-laptop"></i>
+                        <span>我的资料
+                                </span>
+                        <span class="label label-success span-sidebar">3
+                        </span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="boxed_page.html">个人资料</a>
+                        </li>
+                        <li>
+                            <a href="horizontal_menu.html">地址薄</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN MAIN CONTENT -->
+
+
+    <section id="main-content">
+        <section class="wrapper" style="height: 768px">
+
+            <iframe src="" frameborder="0" scrolling="auto" id="frame" width="100%" height="100%"></iframe>
+
+        </section>
+    </section>
+</section>
+
+
+
+<script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // 获取导航栏中的所有链接
+        const links = document.querySelectorAll(".sub-menu a");
+
+        // 给每个链接添加点击事件监听器
+        links.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault(); // 阻止默认链接行为
+
+                // 获取点击链接的 href 属性值
+                // 将 href 属性值设置为 iframe 的 src 属性，从而加载对应的内容
+                document.getElementById("frame").src = this.getAttribute("href");
+            });
+        });
+    });
+
+    // 获取服务查询菜单项
+    var serviceMenu = document.getElementById('sub-menu');
+
+    // 添加点击事件监听器
+    serviceMenu.addEventListener('click', function() {
+        // 获取子菜单
+        var subMenu = serviceMenu.querySelector('.sub');
+
+        // 切换子菜单的显示状态
+        if (subMenu.style.display === 'none') {
+            subMenu.style.display = 'block';
+        } else {
+            subMenu.style.display = 'none';
+        }
+    });
+
+    // 获取服务查询菜单项
+    var serviceMenu2 = document.getElementById('sub-menu2');
+
+    // 添加点击事件监听器
+    serviceMenu2.addEventListener('click', function() {
+        // 获取子菜单
+        var subMenu = serviceMenu2.querySelector('.sub');
+
+        // 切换子菜单的显示状态
+        if (subMenu.style.display === 'none') {
+            subMenu.style.display = 'block';
+        } else {
+            subMenu.style.display = 'none';
+        }
+    });
+
+</script>
+<!-- END SECTION -->
+<!-- BEGIN JS -->
+<script src="/static/static2/js/jquery-1.8.3.min.js" ></script><!-- BASIC JQUERY 1.8.3 LIB. JS -->
+<script src="/static/static2/js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS -->
+<script src="/static/static2/js/jquery.dcjqaccordion.2.7.js"></script><!-- ACCORDIN JS -->
+<script src="/static/static2/js/jquery.scrollTo.min.js" ></script><!-- SCROLLTO JS -->
+<script src="/static/static2/js/jquery.nicescroll.js" ></script><!-- NICESCROLL JS -->
+<script src="/static/static2/js/respond.min.js" ></script><!-- RESPOND JS -->
+<script src="/static/static2/js/jquery.sparkline.js"></script><!-- SPARKLINE JS -->
+<script src="/static/static2/js/sparkline-chart.js"></script><!-- SPARKLINE CHART JS -->
+<script src="/static/static2/js/common-scripts.js"></script><!-- BASIC COMMON JS -->
+<script src="/static/static2/js/count.js"></script><!-- COUNT JS -->
+<!--Morris-->
+<script src="/static/static2/assets/morris.js-0.4.3/morris.min.js" ></script><!-- MORRIS JS -->
+<script src="/static/static2/assets/morris.js-0.4.3/raphael-min.js" ></script><!-- MORRIS  JS -->
+<script src="/static/static2/js/chart.js" ></script><!-- CHART JS -->
+<!--Calendar-->
+<script src="/static/static2/js/calendar/clndr.js"></script><!-- CALENDER JS -->
+<script src="/static/static2/js/calendar/evnt.calendar.init.js"></script><!-- CALENDER EVENT JS -->
+<script src="/static/static2/js/calendar/moment-2.2.1.js"></script><!-- CALENDER MOMENT JS -->
+<script src="/static/static2/http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script><!-- UNDERSCORE JS -->
+<script src="/static/static2/assets/jquery-knob/js/jquery.knob.js" ></script><!-- JQUERY KNOB JS -->
+<script src='/static/static/js/jquery.min.js'></script>
+<script >
+    //knob
+    $(".knob").knob();
+
+</script>
+<!-- END JS -->
+</body>
+</html>
+
+

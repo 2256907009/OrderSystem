@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--    static-->
+    <title>stylish Sign in and Sign up Form A Flat Responsive widget Template :: w3layouts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="stylish Sign in and Sign up Form A Flat Responsive widget, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="/static/static/css/style.css" rel='stylesheet' type='text/css' media="all" /><!--stylesheet-->
+<!--    引入配置-->
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src=" https://static.geetest.com/v4/gt4.js"></script>
+    <script>
+
+        var token = null
+
+        initGeetest4({
+            captchaId: '2150d8177bd4a551df304168e39f263b',
+            // product:'popub'
+            // // 其他参数配置
+        }, function (captchaObj) {
+
+
+            // 将验证码对象存储起来以备后用
+            captcha = captchaObj;
+            // 将验证码插入到指定的 DOM 元素中
+            captchaObj.appendTo("#captchaContainer");
+            captchaObj.onReady(function () {
+                //your code
+            }).onSuccess(function () {
+                token = captcha.getValidate();
+                console.log(token)
+            }).onError(function () {
+                //your code
+            })
+
+        });
+
+
+        function fun() {
+            // // 获取 form 表单中的密码
+            const password = $('#password_index').val();
+            const username = $('#username_index').val();
+
+
+
+            // console.log(password)
+            // console.log(username)
+
+            // 创建 JSEncrypt 对象
+            var encrypt = new JSEncrypt();
+            // 设置公钥
+            encrypt.setPublicKey('MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwC/IKOQw0v3TClSy9/aVrO4Ua\n' +
+                'OSyQN4lgfIx5QoAAF3faprhJHDXdIxwhTZ8qVEMgfNSHwNZEwipFjs4XXGxmgdRG\n' +
+                '25SQwdML4quyZubEbQ+S+ZUkNSKl1pWuU9LzdacFplSYLmeSDLQ2Ir/EJk9UHAvU\n' +
+                '5ibe/0SsySWR11KqWQIDAQAB');
+            //将密码进行加密
+            var encrypted = encrypt.encrypt(password);
+
+            if (token == null) return alert("请先完成安全验证")
+
+
+            $.ajax({
+                url: "/index",
+                type: "post",
+                data: {
+                    password: encrypted,
+                    first_user: username,
+                    lot_number: token.lot_number,
+                    captcha_output: token.captcha_output,
+                    pass_token: token.pass_token,
+                    gen_time: token.gen_time
+                },
+                dataType: "json",
+                success: function (response) {
+
+                    console.log("Data sent successfully!");
+
+                    if (response.message === "success") {
+
+                        window.location.href = "/home"
+
+                    }else{
+                        alert(response.message)
+                        if(response.failuresCount>=3){
+                            $("login").prop("disabled",true);
+                            alert("以达到登录限制次数，请稍后再试！")
+                        }else {
+                            $("login").prop("disabled",false);
+                        }
+
+                    }
+
+                },
+                error: function (error) {
+                    console.error("Failed to send data!");
+                }
+            });
+        }
+    </script>
+
+
+</head>
+<body>
+<h1>stylish Sign in and Sign up  form</h1>
+<div class="form-w3ls">
+    <div class="form-head-w3l">
+        <h2>s</h2>
+    </div>
+    <ul class="tab-group cl-effect-4">
+        <li class="tab active"><a href="#signin-agile">Sign In</a></li>
+        <li class="tab"><a href="#signup-agile">Sign Up</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="signin-agile">
+            <form action="javascript:;" method="post">
+                <p class="header">User Name</p>
+                <input type="text" name="username" id="username_index" placeholder="User Name" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'User Name';}" required="required">
+
+                <p class="header">Password</p>
+                <input type="password" name="password" id="password_index" placeholder="Password" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Password';}" required="required">
+                <div id="captchaContainer"></div>
+<!--                <input type="submit" onclick="fun()" class="sign-in" value="Sign In">-->
+                <button type="submit" onclick="fun()" class="sign-in" name="login" id="login">登录</button>
+            </form>
+        </div>
+        <div id="signup-agile">
+            <form action="/register" method="post">
+
+                <p class="header">User Name</p>
+                <input type="text" name="username_register" id="username_register" placeholder="Your Full Name" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Your Full Name';}" required="required">
+
+                <p class="header">Email Address</p>
+                <input type="email" name="email"  id="email" placeholder="Email" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Email';}" required="required">
+
+                <p class="header">Password</p>
+                <input type="password" name="password_register"  id="password_register" placeholder="Password" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Password';}" required="required">
+
+                <input type="submit" class="register" value="Sign up">
+            </form>
+        </div>
+    </div><!-- tab-content -->
+</div> <!-- /form -->
+
+<!-- js files -->
+<script src='/static/static/js/jquery.min.js'></script>
+<script src="/static/static/js/index.js"></script>
+<!-- /js files -->
+</body>
+</html>

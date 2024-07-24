@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询快递单号</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .input-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .input-container input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+        .input-container input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            outline: none;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h2>查询快递单号</h2>
+    <div class="input-container">
+        <form id="trackingForm">
+            <input type="text" id="trackingNumber" placeholder="请输入快递单号">
+            <input type="submit" value="查询">
+        </form>
+    </div>
+    <div class="result" id="trackingResult"></div>
+</div>
+
+<script>
+    document.getElementById("trackingForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var trackingNumber = document.getElementById("trackingNumber").value;
+        var resultContainer = document.getElementById("trackingResult");
+
+        // 创建一个包含要发送的数据的 JavaScript 对象
+        const requestData = {
+            logisticCode: trackingNumber
+        };
+
+        // 使用 Fetch API 发送 POST 请求
+        fetch('/express/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData) // 将 JavaScript 对象转换为 JSON 字符串并作为请求体发送
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理从后端返回的数据
+                resultContainer.innerHTML = data; // 将返回的查询结果显示在页面上
+            })
+            .catch(error => {
+                // 处理错误情况
+                console.error('Error:', error);
+                resultContainer.innerHTML = "查询出错，请稍后重试。";
+            });
+    });
+
+
+
+</script>
+
+</body>
+</html>
